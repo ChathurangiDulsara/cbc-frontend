@@ -8,7 +8,7 @@ export default function HomePage() {
       <p>
         This is a simple home page. Explore our features and enjoy your stay!
       </p>
-      <button className="home-btn">Get Started</button>
+      <button className='bg-yellow-500 p-8'>Get Started</button>
       <Link to="/login" className="loginPage">Login</Link>
     </div>
   );
