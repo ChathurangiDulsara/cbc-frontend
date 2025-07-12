@@ -1,5 +1,6 @@
-import './HomePage.css';
+
 import { Link } from 'react-router-dom';
+import React from 'react';
 
 export default function HomePage() {
   return (
@@ -8,7 +9,7 @@ export default function HomePage() {
       <p>
         This is a simple home page. Explore our features and enjoy your stay!
       </p>
-      <button className='bg-yellow-500 p-8'>Get Started</button>
+      <button className='bg-yellow-500'>Get Started</button>
       <Link to="/login" className="loginPage">Login</Link>
     </div>
   );
