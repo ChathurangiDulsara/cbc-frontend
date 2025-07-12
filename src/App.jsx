@@ -4,13 +4,25 @@ import './App.css'
 import ProductCart from './Components/ProductCart'
 import Testing from './Components/testing'
 import UserData from './Components/Userdata'
+import LoginPage from './Pages/loginPage'
+import HomePage from './Pages/homePage'
+import { BrowserRouter, Routes, Route,Link } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState(0)
   return (
     <>
-
-    <Testing />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/testing" element={<Testing />} />
+        <Route path="/userdata" element={<UserData />} />
+        <Route path="/*" element={<h1>Page Not Found</h1>} />
+      </Routes>
+    </BrowserRouter>
+  
+    {/* <Testing /> */}
 
     {/* /* <UserData/> */ }
       {/* <ProductCart

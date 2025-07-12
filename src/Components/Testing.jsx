@@ -19,9 +19,17 @@ export default function Testing(){
   return(
     <>
     <div className="background">
-        <button onClick={increment}>Increment</button>
+        <h1 className="text">Hello {name}</h1>
+        <button className="val"onClick={increment}>Increment</button>
         <span>{count}</span>
-        <button onClick={decrement}>Decrement</button>
+        <button className="val" onClick={decrement}>Decrement</button>
+
+
+        <div className="button-container">
+            <button onClick={() => changeName("Students")}>Students</button>
+            <button onClick={() => changeName("Teachers")}>Teachers</button>    
+            <button onClick={() => changeName("Admins")}>Admins</button>
+        </div>
         
         </div>
     </>
