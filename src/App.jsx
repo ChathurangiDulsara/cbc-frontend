@@ -16,9 +16,10 @@ function App() {
       <Routes path ="/*">
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin/*" element={<LoginPage />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/userdata" element={<UserData />} />
-        <Route path="/*" element={<h1>Page Not Found</h1>} />
+        <Route path="/*" element={<HomePage/>} />
       </Routes>
     </BrowserRouter>
   
