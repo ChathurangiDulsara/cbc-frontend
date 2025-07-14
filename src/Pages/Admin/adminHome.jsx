@@ -1,6 +1,7 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { BsGraphUp, BsBoxSeam, BsCart4, BsPeopleFill } from "react-icons/bs";
 import AdminProducts from "./adminProducts";
+import { Toaster } from "react-hot-toast";
 
  
 export default function AdminHome() {
@@ -37,6 +38,8 @@ export default function AdminHome() {
       </div>
 
       <div className="w-[80%] h-screen bg-red-600">
+        <BrowserRouter>
+        <Toaster/>
         <Routes path="/*">
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/products" element={<AdminProducts />} />
@@ -44,6 +47,7 @@ export default function AdminHome() {
           <Route path="/customers" element={<AdminCustomers />} />
           <Route path="/*" element={<AdminHome/>} />
         </Routes>
+        </BrowserRouter>
       </div>
     </div>
   );
