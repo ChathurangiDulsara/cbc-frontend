@@ -1,9 +1,6 @@
 import { Link, Route, Routes } from "react-router-dom";
 import { BsGraphUp, BsBoxSeam, BsCart4, BsPeopleFill } from "react-icons/bs";
 import AdminProducts from "./adminProducts";
-import AdminDashboard from "./adminDashboard";
-import AdminOrders from "./adminOrders";
-import AdminCustomers from "./adminCustomers";
 
  
 export default function AdminHome() {
