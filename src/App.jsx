@@ -7,16 +7,17 @@ import UserData from './Components/Userdata'
 import LoginPage from './Pages/loginPage'
 import HomePage from './Pages/homePage'
 import { BrowserRouter, Routes, Route,Link } from 'react-router-dom'
+import AdminHomepage from './Pages/Admin/adminHome'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
   return (
     <>
     <BrowserRouter>
       <Routes path ="/*">
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin/*" element={<LoginPage />} />
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/login" element={<LoginPage/>} />
+        <Route path="/admin/*" element={<AdminHomepage />} />
         <Route path="/testing" element={<Testing />} />
         <Route path="/userdata" element={<UserData />} />
         <Route path="/*" element={<HomePage/>} />
