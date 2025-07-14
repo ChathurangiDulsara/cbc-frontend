@@ -1,10 +1,10 @@
-export default function AdminProductsPage(){
+export default function Products(){
 
 
   getProducts()
   return (
     <div>
-      <h1>Admin Products Page</h1>
+      <h1>Admin Product Page</h1>
     </div>
   )
 }

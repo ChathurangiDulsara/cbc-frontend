@@ -7,13 +7,16 @@ import UserData from './Components/Userdata'
 import LoginPage from './Pages/loginPage'
 import HomePage from './Pages/homePage'
 import { BrowserRouter, Routes, Route,Link } from 'react-router-dom'
-import AdminHomepage from './Pages/Admin/adminHome'
+import { Toaster } from 'react-hot-toast'
+
+
 
 function App() {
   // const [count, setCount] = useState(0)
   return (
     <>
     <BrowserRouter>
+     <Toaster/>
       <Routes path ="/*">
         <Route path="/" element={<HomePage/>} />
         <Route path="/login" element={<LoginPage/>} />
