@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import React from 'react';
 
@@ -8,7 +7,7 @@ export default function HomePage() {
       <h1>Welcome to Our Website</h1>
     
       <button className='bg-yellow-500 p-8'>Get Started</button>
-      {/* <Link to="/login" className="loginPage">Login</Link> */}
+      <Link to="/login" className="loginPage">Login</Link>
     </div>
   );
 }

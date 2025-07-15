@@ -1,5 +1,3 @@
-
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import axios from "axios";
@@ -16,24 +14,29 @@ export default function LoginPage() {
       {
         email: email,   
         password: password
-
-  }).then((res) => {
-    if(res.data==null){
-      toast.error(res.data.message)
+      }
+    ).then((res) => {
+      if(res.data==null){
+         toast.error(res.data.message)
+          return;
       // alert("Invalid email or Password"+res.data.message);
-      return;
-
     }
-    toast.success("Login Successful")
     console.log(res.data)
     localStorage.setItem("token", res.data.token);
-
+    // toast.success("Login Successful");
     if(res.data.user.type=="admin"){
       window.location.href = "/admin";
   }else{
     window.location.href = "/";
   }
 }
+    ).catch((err) => {  
+  
+      console.log(err);
+      toast.error("Invalid email or Password");
+      // alert("Invalid email or Password");
+      
+    }
   )
 }
 
