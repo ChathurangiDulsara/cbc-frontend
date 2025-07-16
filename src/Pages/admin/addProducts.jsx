@@ -6,48 +6,57 @@ import { useNavigate } from "react-router-dom";
 export default function AddProducts() {
   const [productID, setProductID] = useState("");
   const [ProductName, setProductName] = useState("");
-  const [alternativeNames, setAlternativeNames] = useState("");
-  const [imageUrls, setImageUrls] = useState("");
+  const [altNames, setAlternativeNames] = useState("");
+  const [images, setImageUrls] = useState("");
   const [price, setPrice] = useState("");
-  const [lastPrice, setLastPrice] = useState("");
+  const [LastPrice, setLastPrice] = useState("");
   const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   
 
   const navigate = useNavigate()
 
- async function submitHandler() {
+ async function submitHandle(e) {
+  e.preventDefault();
 
-  const altNames= alternativeNames.split(",");
-  const imgurl = imageUrls.split(",");
+  const alternativeNames = altNames
+    .split(",")
+    .map(name => name.trim())
+    .filter(Boolean); 
 
-  const product ={
-    productID: productID,
-    productName: ProductName,
-    alternativeNames: altNames,
-    imageUrls: imgurl,
-    price: price,
-    lastPrice: lastPrice,
-    stock: stock,
-    description: description
-  }
-   const token = localStorage.getItem("token");
+  const imgurl = images
+    .split(",")
+    .map(url => url.trim())
+    .filter(Boolean);
 
-   try{
-     await axios.post("http://localhost:5000/api/products", product, {
-        headers: {
-          Authorization: "Bearer" +token
-        }
-        });
-        navigate("/admin/products")
-        toast.success("Product added successfully");
-  
-      } catch (err) {
-        console.error("Error adding product:", err);
-        toast.error("Failed to add product");
+  const Product = {
+    productID: productID.trim(),
+    ProductName: ProductName.trim(),
+    altNames: alternativeNames,
+    images: imgurl,
+    price: Number(price),
+    LastPrice: Number(LastPrice),
+    stock: Number(stock),
+    description: description.trim()
+  };
+
+  const token = localStorage.getItem("token");
+
+  try {
+    await axios.post("http://localhost:5000/api/products", Product, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
       }
-      
+    });
 
+    toast.success("Product added successfully");
+    navigate("/admin/products");
+
+  } catch (err) {
+    console.error("Error adding product:", err.response?.data || err.message);
+    toast.error(err.response?.data?.message || "Failed to add product");
+  }
 }
 
   return (
@@ -55,8 +64,8 @@ export default function AddProducts() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl">
         <h1 className="text-3xl font-bold text-center mb-8">Add New Product</h1>
 
-        <form className="space-y-6">
-          {/* Product ID */}
+       
+         
           <div>
             <label className="block text-sm font-medium mb-1">Product ID</label>
             <input
@@ -67,7 +76,7 @@ export default function AddProducts() {
               onChange={(e)=>{setProductID(e.target.value)}}      />
           </div>
 
-          {/* Product Name */}
+       
           <div>
             <label className="block text-sm font-medium mb-1">Product Name</label>
             <input
@@ -79,31 +88,31 @@ export default function AddProducts() {
             />
           </div>
 
-          {/* Alternative Names */}
+          
           <div>
             <label className="block text-sm font-medium mb-1">Alternative Names</label>
             <input
               type="text"
               placeholder="Alternative Names"
               className="w-full p-2 border border-gray-300 rounded"
-              value={alternativeNames}
+              value={altNames}
               onChange={(e)=>{setAlternativeNames(e.target.value)}} 
             />
           </div>
 
-          {/* Image URLs */}
+        
           <div>
             <label className="block text-sm font-medium mb-1">Image URLs</label>
             <input
               type="text"
               placeholder="Image URLs"
               className="w-full p-2 border border-gray-300 rounded"
-              value={imageUrls}
+              value={images}
               onChange={(e)=>{setImageUrls(e.target.value)}} 
             />
           </div>
 
-          {/* Price */}
+         
           <div>
             <label className="block text-sm font-medium mb-1">Price</label>
             <input
@@ -115,19 +124,19 @@ export default function AddProducts() {
             />
           </div>
 
-          {/* Last Price */}
+         
           <div>
             <label className="block text-sm font-medium mb-1">Last Price</label>
             <input
               type="number"
               placeholder="Last Price"
               className="w-full p-2 border border-gray-300 rounded"
-              value={lastPrice}
+              value={LastPrice}
               onChange={(e)=>{setLastPrice(e.target.value)}}
             />
           </div>
 
-          {/* Stock */}
+         
           <div>
             <label className="block text-sm font-medium mb-1">Stock</label>
             <input
@@ -139,7 +148,7 @@ export default function AddProducts() {
             />
           </div>
 
-          {/* Description */}
+         
           <div>
             <label className="block text-sm font-medium mb-1">Description</label>
             <textarea
@@ -150,17 +159,16 @@ export default function AddProducts() {
             ></textarea>
           </div>
 
-          {/* Submit Button */}
+         
           <div className="text-center">
             <button
               type="submit"
               className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
-              onClick={submitHandler}
+              onClick={submitHandle}
             >
               Add Product
             </button>
           </div>
-        </form>
       </div>
     </div>
   );
