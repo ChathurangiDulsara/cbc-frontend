@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import uploadMediaToSupabase from "../../utils/mediaUpload";
 
-export default function AddProducts() {
+export default  function AddProducts() {
   const [productID, setProductID] = useState("");
   const [ProductName, setProductName] = useState("");
   const [altNames, setAlternativeNames] = useState("");
@@ -36,7 +36,8 @@ export default function AddProducts() {
       promisesArray[i] = uploadMediaToSupabase(imageFiles[i])
     }
 
-    const imgUrls = Promise.all(promisesArray)
+    const imgUrls = await Promise.all(promisesArray)
+    console.log("Image URLs:",imgUrls);
 
     const Product = {
       productID: productID.trim(),
@@ -48,6 +49,7 @@ export default function AddProducts() {
       stock: Number(stock),
       description: description.trim()
     };
+   
 
     const token = localStorage.getItem("token");
 
@@ -69,8 +71,8 @@ export default function AddProducts() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-blue-300 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl">
+    <div className="w-full bg-primary flex items-center justify-center">
+      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-xl">
         <h1 className="text-3xl font-bold text-center mb-8">Add New Product</h1>
 
 
@@ -80,7 +82,7 @@ export default function AddProducts() {
           <input
             type="text"
             placeholder="Product ID"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-accent rounded"
             value={productID}
             onChange={(e) => { setProductID(e.target.value) }} />
         </div>
@@ -91,7 +93,7 @@ export default function AddProducts() {
           <input
             type="text"
             placeholder="Product Name"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-accent rounded"
             value={ProductName}
             onChange={(e) => { setProductName(e.target.value) }}
           />
@@ -103,7 +105,7 @@ export default function AddProducts() {
           <input
             type="text"
             placeholder="Alternative Names"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-accent rounded"
             value={altNames}
             onChange={(e) => { setAlternativeNames(e.target.value) }}
           />
@@ -114,7 +116,7 @@ export default function AddProducts() {
           <label className="text-gray-700 font-medium">Image URLs</label>
           <input
             type="file"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+            className="w-full px-3 py-2 border border-accent rounded-md focus:ring focus:ring-blue-200 focus:outline-none bg-secondary"
             placeholder="Enter Image URLs (comma-separated)"
             onChange={(e) => {
               setImageFiles(e.target.files)
@@ -128,7 +130,7 @@ export default function AddProducts() {
           <input
             type="number"
             placeholder="Price"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-accent rounded"
             value={price}
             onChange={(e) => { setPrice(e.target.value) }}
           />
@@ -140,7 +142,7 @@ export default function AddProducts() {
           <input
             type="number"
             placeholder="Last Price"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-accent rounded"
             value={LastPrice}
             onChange={(e) => { setLastPrice(e.target.value) }}
           />
@@ -152,7 +154,7 @@ export default function AddProducts() {
           <input
             type="number"
             placeholder="Stock"
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-accent rounded"
             value={stock}
             onChange={(e) => { setStock(e.target.value) }}
           />
@@ -163,7 +165,7 @@ export default function AddProducts() {
           <label className="block text-sm font-medium mb-1">Description</label>
           <textarea
             placeholder="Product Description"
-            className="w-full p-2 border border-gray-300 rounded h-24 resize-none"
+            className="w-full p-2 border border-accent rounded h-24 resize-none"
             value={description}
             onChange={(e) => { setDescription(e.target.value) }}
           ></textarea>
@@ -173,7 +175,7 @@ export default function AddProducts() {
         <div className="text-center">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+            className="bg-accent text-secondary px-6 py-2 rounded hover:bg-accent transition"
             onClick={submitHandle}
           >
             Add Product
