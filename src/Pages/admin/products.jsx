@@ -10,7 +10,7 @@ export default function Products() {
   
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products")
+    axios.get(import.meta.env.VITE_BACKEND_URL+"/api/products")
       .then(
         (res) => {
           console.log(res.data)
@@ -74,7 +74,7 @@ export default function Products() {
                               const token = localStorage.getItem("token");
 
                               try {
-                                  const response = await axios.delete(`http://localhost:5000/api/products/${product.productID}`, {
+                                  const response = await axios.delete(import.meta.env.VITE_BACKEND_URL+`api/products/${product.productID}`, {
                                      headers: {
                                           Authorization: `Bearer ${token}`,
                                         },

@@ -6,7 +6,13 @@
         "./src/**/*.{js,ts,jsx,tsx}",
       ],
       theme: {
-        extend: {},
+        extend: {
+          colors: {
+            primary: "#FAF7F3",
+            secondary: "#F0E4D3",
+            accent:"#c8611d"
+          }
+        },
       },
       plugins: [],
     };

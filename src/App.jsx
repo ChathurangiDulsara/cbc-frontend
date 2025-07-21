@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import React from 'react'
-import Testing from './Components/testing'
-import UserData from './Components/Userdata'
 import LoginPage from './Pages/loginPage'
 import HomePage from './Pages/homePage'
 import { BrowserRouter, Routes, Route,Link } from 'react-router-dom'
@@ -18,12 +16,9 @@ function App() {
     <BrowserRouter>
      <Toaster/>
       <Routes path ="/*">
-        <Route path="/" element={<HomePage/>} />
+        <Route path="/*" element={<HomePage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/admin/*" element={<AdminHomepage />} />
-        <Route path="/testing" element={<Testing />} />
-        <Route path="/userdata" element={<UserData />} />
-        <Route path="/*" element={<HomePage/>} />
       </Routes>
     </BrowserRouter>
   

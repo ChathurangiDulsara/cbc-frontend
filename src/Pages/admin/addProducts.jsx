@@ -52,7 +52,7 @@ export default function AddProducts() {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.post("http://localhost:5000/api/products", Product, {
+      await axios.post(import.meta.env.VITE_BACKEND_URL+"/api/products", Product, {
         headers: {
           Authorization: "Bearer " + token,
           "Content-Type": "application/json"
