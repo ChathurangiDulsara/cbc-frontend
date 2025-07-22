@@ -38,12 +38,6 @@ export default function EditProductForm() {
       .map(name => name.trim())
       .filter(Boolean);
 
-    // const images = images
-    //   .split(",")
-    //   .map(url => url.trim())
-    //   .filter(Boolean);
-
-    
 
     const promisesArray = [];
 
@@ -65,7 +59,7 @@ export default function EditProductForm() {
       productID: productID.trim(),
       ProductName: ProductName.trim(),
       altNames: alternativeNames,
-      images: imgUrls,
+      image: imgUrls,
       price: Number(price),
       LastPrice: Number(LastPrice),
       stock: Number(stock),
@@ -199,7 +193,7 @@ export default function EditProductForm() {
           </div>
         </form>
       </div>
-      {/* Edit Product Form content goes here */}
+      
     </div>
   );
 }

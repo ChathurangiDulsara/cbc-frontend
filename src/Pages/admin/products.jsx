@@ -13,14 +13,14 @@ export default function Products() {
     axios.get(import.meta.env.VITE_BACKEND_URL+"/api/products")
       .then(
         (res) => {
-          console.log(res.data)
+          console.log(res.data.list)
           setProducts(res.data.list)
           setProductsLoaded(true)
         }
       )
       .catch(
         (err) => {
-          console.error("Error fetching products:", err)
+          console.log("Error fetching products:", err)
         }
       )
   }, [productsLoaded])
@@ -76,7 +76,7 @@ export default function Products() {
                             const token = localStorage.getItem("token");
 
                             try {
-                              const response = await axios.delete(import.meta.env.VITE_BACKEND_URL + `api/products/${product.productID}`, {
+                              const response = await axios.delete ( `${import.meta.env.VITE_BACKEND_URL}/api/products/${product.productID}`, {
                                 headers: {
                                   Authorization: `Bearer ${token}`,
                                 },
@@ -85,7 +85,7 @@ export default function Products() {
                               toast.success(response.data.message || "Product deleted successfully");
                               setProductsLoaded(false); // Re-fetch product list
                             } catch (err) {
-                              console.error("Error deleting product:", err.response?.data || err.message);
+                              console.log("Error deleting product:", err.response?.data || err.message);
                               toast.error(err.response?.data?.message || "Failed to delete product");
                             }
                           }}

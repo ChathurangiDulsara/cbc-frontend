@@ -1,10 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 
-const key = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllZ3hhcHJtcXBhbGdpbGdpb29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MTY5MjMsImV4cCI6MjA2ODQ5MjkyM30.5x8wqc8Gh9HIe-lVypjz-M8Rqp2GHpGnkeAKaoeNz5o`;
+const SUPABASE_URL = "https://yegxaprmqpalgilgiooq.supabase.co";
+const SUPABASE_KEY = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InllZ3hhcHJtcXBhbGdpbGdpb29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI5MTY5MjMsImV4cCI6MjA2ODQ5MjkyM30.5x8wqc8Gh9HIe-lVypjz-M8Rqp2GHpGnkeAKaoeNz5o`;
 
-const url = "https://yegxaprmqpalgilgiooq.supabase.co"; 
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const supabase = createClient(url, key);
+function sanitizeFileName(name) {
+  return name
+    .replace(/\s+/g, "-")            
+    .replace(/[()]/g, "")           
+    .replace(/[^a-zA-Z0-9.\-_]/g, ""); 
+}
 
 export default function uploadMediaToSupabase(file) {
   return new Promise((resolve, reject) => {
@@ -13,23 +19,35 @@ export default function uploadMediaToSupabase(file) {
       return;
     }
 
-    let fileName = file.name;
-    const extension = fileName.split(".").pop();
-    const timestamp = new Date().getTime();
-    fileName = `${timestamp}-${fileName}.${extension}`;
+    const timestamp = Date.now();
+    const cleanName = sanitizeFileName(file.name);
+    const fileName = `${timestamp}-${cleanName}`;
 
-    supabase.storage.from("images").upload(fileName, file, {
-      cacheControl: "3600",
-      upsert: false,
+    supabase.storage
+      .from("images")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: false,
+      })
+      .then(({ error }) => {
+        if (error) {
+          reject(error.message || "Failed to upload file");
+          return;
+        }
 
-     }).then(() => {
+        const { publicUrl, error: urlError } = supabase.storage
+          .from("images")
+          .getPublicUrl(fileName);
 
-      const publicUrl = supabase.storage.from("images").getPublicUrl(fileName).data.publicUrl;
+        if (urlError) {
+          reject(urlError.message || "Failed to get public URL");
+          return;
+        }
 
-      resolve(publicUrl);
-
-    }).catch((err) => {
-      reject(err);
-    });
+        resolve(publicUrl);
+      })
+      .catch((err) => {
+        reject(err.message || "Unknown upload error");
+      });
   });
 }

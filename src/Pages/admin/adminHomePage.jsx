@@ -16,7 +16,7 @@ export default function AdminHomePage() {
         <Outlet/>
         <Link 
           className="flex flex-row items-center mb-4 text-primary hover:text-primary" 
-          to="/admin/dashboard"
+          to="/admin/"
         >
           <BsGraphUp className="mr-2" />Dashboard
         </Link>
