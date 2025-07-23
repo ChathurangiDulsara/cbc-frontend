@@ -8,6 +8,7 @@ import AddProducts from "./addProducts.jsx";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import EditProductForm from "./editProductForm.jsx";
+import AdminOrdersPage from "./adminOrders.jsx";
 
 export default function AdminHomePage() {
   return (
@@ -28,7 +29,7 @@ export default function AdminHomePage() {
         </Link>
         <Link 
           className="flex flex-row items-center mb-4 text-primary hover:text-primary" 
-          to="/admin/orders"
+          to="/admin/adminOrders"
         >
           <BsCart4 className="mr-2" /> Orders
         </Link>
@@ -46,7 +47,7 @@ export default function AdminHomePage() {
           <Route path="/" element={<Dashboard />} />
           <Route path="products" element={<Products />} />
           <Route path="products/addProducts" element={<AddProducts />} />
-          <Route path="orders" element={<Orders />} />
+          <Route path="adminOrders" element={<AdminOrdersPage />} />
           <Route path="customers" element={<Customers />} />
           <Route path="products/editProductForm" element={<EditProductForm/>} />
         </Routes>

@@ -11,7 +11,7 @@ export default function CartCard(props) {
   useEffect(() => {
     if (!loaded) {
       axios
-        .get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId)
+        .get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productID)
         .then((response) => {
           if (response.data != null) {
             setProduct(response.data);
@@ -35,16 +35,16 @@ export default function CartCard(props) {
         <tr className="hover:bg-accent hover:text-white cursor-pointer">
           <td className="">
             <img
-              src={product?.images[0]}
+              src={product?.image[0]}
               className="w-[90px] h-[90px] object-cover mx-auto"
             />
           </td>
           <td className="text-center">{product?.productName}</td>
-          <td className="text-center">{productId}</td>
+          <td className="text-center">{productID}</td>
           <td className="text-center">{qty}</td>
-          <td className="text-center">LKR. {product?.lastPrice.toFixed(2)}</td>
+          <td className="text-center">LKR. {product?.LastPrice.toFixed(2)}</td>
           <td className="text-center">
-            {(product?.lastPrice * qty).toFixed(2)}
+            {(product?.LastPrice * qty).toFixed(2)}
           </td>
         </tr>
       )}

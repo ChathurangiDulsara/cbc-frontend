@@ -35,14 +35,14 @@ export default function AdminOrdersPage() {
     return orderedItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const handleViewDetails = (order) => {
-    setSelectedOrder(order);
+  const handleViewDetails = (Order) => {
+    setSelectedOrder(Order);
     setDetailModalVisible(true);
   };
 
-  const handleUpdateOrder = (order) => {
-    setSelectedOrder(order);
-    setUpdateData({ status: order.status, notes: order.notes || "" });
+  const handleUpdateOrder = (Order) => {
+    setSelectedOrder(Order);
+    setUpdateData({ status: Order.status, notes: Order.notes || "" });
     setUpdateModalVisible(true);
   };
 
@@ -72,10 +72,10 @@ export default function AdminOrdersPage() {
       .then(() => {
         toast.success("Order updated successfully.");
         setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order.orderId === selectedOrder.orderId
-              ? { ...order, status: updateData.status, notes: updateData.notes }
-              : order
+          prevOrders.map((Order) =>
+            Order.orderId === selectedOrder.orderId
+              ? { ...Order, status: updateData.status, notes: updateData.notes }
+              : Order
           )
         );
         closeModals();
@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center p-4">
+    <div className="w-full h-full flex flex-col bg-primary items-center justify-center p-4">
       <h1 className="text-xl font-bold mb-4">Admin Orders</h1>
       {loading ? (
         <p>Loading orders...</p>
@@ -104,22 +104,22 @@ export default function AdminOrdersPage() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
-              <tr key={order.orderId} className="hover:bg-gray-50">
-                <td className="p-2 border-b">{order.orderId}</td>
-                <td className="p-2 border-b">{order.status}</td>
-                <td className="p-2 border-b">{new Date(order.date).toLocaleDateString()}</td>
+            {orders.map((Order) => (
+              <tr key={Order.orderId} className="hover:bg-gray-50">
+                <td className="p-2 border-b">{Order.orderId}</td>
+                <td className="p-2 border-b">{Order.status}</td>
+                <td className="p-2 border-b">{new Date(Order.date).toLocaleDateString()}</td>
                 <td className="p-2 border-b">LKR {calculateTotal(order.orderedItems).toFixed(2)}</td>
                 <td className="p-2 border-b">
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded-lg mr-2 hover:bg-blue-600"
-                    onClick={() => handleViewDetails(order)}
+                    onClick={() => handleViewDetails(Order)}
                   >
                     View
                   </button>
                   <button
                     className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600"
-                    onClick={() => handleUpdateOrder(order)}
+                    onClick={() => handleUpdateOrder(Order)}
                   >
                     Update
                   </button>

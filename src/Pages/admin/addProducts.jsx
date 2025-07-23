@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import uploadMediaToSupabase from "../../utils/mediaUpload";
+import uploadMediaToSupabase from "../../utils/mediaUpload.js";
 
 export default function AddProducts() {
   const [productID, setProductID] = useState("");

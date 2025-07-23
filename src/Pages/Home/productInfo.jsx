@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import ProductNotFound from "./productNotFound";
 import axios from "axios";
 import ImageSlider from "../../Components/imageSlider";
-import { addToCart } from "../../utils/cartFunction";
+import { addToCart } from "../../utils/cartFunction.js";
 import Loading from "../../Components/loading";
+import toast from "react-hot-toast";
 
 export default function ProductOverview() {
   const { id: productID } = useParams();
@@ -31,8 +32,8 @@ export default function ProductOverview() {
       });
   }, []);
    function onAddtoCartClick() {
-      addToCart(product.productId, 1);
-      toast.success(product.productId + " Added to cart");
+      addToCart(product.productID, 1);
+      toast.success(product.productID+ " Added to cart");
     }
   
     function onBuyNowClick(){
@@ -40,7 +41,7 @@ export default function ProductOverview() {
         state:{
           items: [
             {
-              productId: product.productId,
+              productID: product.productID,
               qty: 1
             }
           ]
@@ -91,10 +92,12 @@ export default function ProductOverview() {
 
             <p className="text-lg text-accent">{product.description}</p>
 
+            <br></br>
+            <div className="flex gap-4 mt-6">
+
             <button
               onClick={onAddtoCartClick}
-              className="bg-accent text-white p-2 rounded-lg"
-            >
+              className="bg-accent text-white p-2 rounded-lg">
               Add to cart
             </button>
             <button
@@ -103,6 +106,7 @@ export default function ProductOverview() {
             >
               Buy Now
             </button>
+            </div>
           </div>
         </div>
       )}

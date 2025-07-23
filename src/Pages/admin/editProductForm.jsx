@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import uploadMediaToSupabase from "../../utils/mediaUpload";
+import uploadMediaToSupabase from "../../utils/mediaUpload.js";
 
 export default function EditProductForm() {
   const navigate = useNavigate();
