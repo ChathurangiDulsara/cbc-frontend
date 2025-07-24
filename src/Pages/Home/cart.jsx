@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { loadCart } from "../../utils/cartFunction";
-import CartCard from "../../components/cartCard";
+import { loadCart } from "../../utils/cartFunction.js";
+import CartCard from "../../Components/cartCard.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export default function Cart() {
     setCart(loadCart());
     console.log(loadCart());
     axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
+      .post(import.meta.env.VITE_BACKEND_URL +"/api/orders/quote", {
         orderedItems: loadCart(),
       })
       .then((res) => {
@@ -27,15 +27,15 @@ export default function Cart() {
   }, []);
 
   function onOrderCheckOutClick() {
-    navigate("/shipping" ,{
+    navigate("/Home/shipping" ,{
       state: {
-        items : loadCart()
+        orderedItems: loadCart()
       }
     });    
   }
 
   return (
-    <div className="w-full h-full  overflow-y-scroll flex  flex-col items-end">
+    <div className="w-full h-full overflow-y-scroll flex  flex-col items-end">
       <table className="w-full">
         <thead>
           <tr>
@@ -47,12 +47,12 @@ export default function Cart() {
             <th>Total</th>
           </tr>
         </thead>
-        {cart.map((item) => {
+        {cart.map((orderedItems) => {
           return (
-            <CartCard
-              key={item.productId}
-              productId={item.productId}
-              qty={item.qty}
+            <CartCard 
+              key={orderedItems.productID}
+              productID={orderedItems.productID}
+              quantity={orderedItems.quantity}
             />
           );
         })}
@@ -61,10 +61,10 @@ export default function Cart() {
         Total: LKR. {labeledTotal.toFixed(2)}
       </h1>
       <h1 className="text-3xl font-bold text-accent">
-        Discount: LKR. {(labeledTotal - total).toFixed(2)}
+        Discount: LKR. {(labeledTotal- total).toFixed(2)}
       </h1>
       <h1 className="text-3xl font-bold text-accent">
-        Grand Total: LKR. {total}
+        Grand Total: LKR.{total}
       </h1>
 
       <button onClick={onOrderCheckOutClick} className="bg-accent hover:bg-accent-light text-white p-2 rounded-lg w-[300px]">

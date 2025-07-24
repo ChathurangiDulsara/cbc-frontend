@@ -9,26 +9,26 @@ export function loadCart() {
 
 
 
-export function addToCart(productID, qty){
+export function addToCart(productID, quantity){
   const cart = loadCart()
 
   const index = cart.findIndex(
-    (item)=>{
-      return item.productID==productID
+    (orderedItems)=>{
+      return orderedItems.productID==productID
     }
   )
   console.log(index)
   if(index==-1){
     cart.push(
-      {productID, qty}
+      {productID, quantity}
     )
   }else{
 
-    const newQty = cart[index].qty + qty
+    const newQty = cart[index].quantity+ quantity
     if(newQty<=0){
       cart.splice(index,1)
     }else{
-      cart[index].qty = newQty
+      cart[index].quantity = newQty
     }
   }
   saveCart(cart)
@@ -46,8 +46,8 @@ export function deleteItem(productID){
   const cart = loadCart()
 
   const index = cart.findIndex(
-    (item)=>{
-      return item.productID==productID
+    (orderedItems)=>{
+      return orderedItems.productID==productID
     }
   )
 

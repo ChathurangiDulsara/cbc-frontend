@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import CartCard from "../../components/cartCard";
+import CartCard from "../../Components/cartCard";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -7,7 +7,7 @@ import axios from "axios";
 export default function ShippingPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const cart = location.state?.items;
+  const cart = location.state?.orderedItems;
   const [total, setTotal] = useState(0);
   const [labeledTotal, setLabeledTotal] = useState(0);
   const [name, setName] = useState("");
@@ -79,7 +79,7 @@ export default function ShippingPage() {
       )
       .then((res) => {
         toast.success("Order placed successfully!");
-        navigate("/orders");
+        navigate("/Home/orders");
       })
       .catch((err) => {
         toast.error("Failed to place order. Please try again.");
@@ -138,11 +138,11 @@ export default function ShippingPage() {
             </tr>
           </thead>
           <tbody>
-            {cart.map((item) => (
+            {cart.map((orderedItems) => (
               <CartCard
-                key={item.productId}
-                productId={item.productId}
-                qty={item.qty}
+                key={orderedItems.productID}
+                productId={orderedItems.productID}
+                qty={orderedItems.quantity}
               />
             ))}
           </tbody>

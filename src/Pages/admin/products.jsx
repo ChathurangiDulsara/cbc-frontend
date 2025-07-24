@@ -83,7 +83,7 @@ export default function Products() {
                               });
 
                               toast.success(response.data.message || "Product deleted successfully");
-                              setProductsLoaded(false); // Re-fetch product list
+                              setProductsLoaded(false);
                             } catch (err) {
                               console.log("Error deleting product:", err.response?.data || err.message);
                               toast.error(err.response?.data?.message || "Failed to delete product");

@@ -28,7 +28,7 @@ export default function(){
         )
 
     return(
-        <div className="w-full h-full bg-secondary flex flex-wrap overflow-y-scroll">
+        <div className="w-full h-full bg-primary flex flex-wrap overflow-y-scroll">
             {
                 products.map(
                     (product)=>

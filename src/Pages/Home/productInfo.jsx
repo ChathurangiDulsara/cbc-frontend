@@ -11,6 +11,7 @@ export default function ProductOverview() {
   const { id: productID } = useParams();
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
+  const navigate =useNavigate;
   
 
 
@@ -79,12 +80,12 @@ export default function ProductOverview() {
             )}
 
             <p className="text-xl text-accent mb-2">
-              {product.price > product.LastPrice && (
+            {product.price > product.LastPrice && (
                 <span className="line-through font-bold text-lg mr-2">
                   LKR {product.price}
                 </span>
               )}
-              <span className="font-bold text-lg">LKR {product.LastPrice}</span>
+              <span className="font-bold text-lg text-gray-950">LKR {product.LastPrice.toFixed(2)}</span>
             </p>
 
 

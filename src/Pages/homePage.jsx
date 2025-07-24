@@ -7,14 +7,14 @@ import Product from './Home/products.jsx';
 
 export default function HomePage() {
   return (
-    <div className='w-full h-full bg-secondary display relative'>
+    <div className='w-full min-h-screen bg-primary display relative'>
       <Header/>
-      <div className="w-full h-[calc(100vh-100px)]">
+      <div className="w-full h-[calc(100vh-100px)] ">
         <Routes>
           <Route path="/" element={<h1>Welcome to Home Page</h1>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/productInfo/:id" element={<ProductOverview/>} />
-          <Route path="/cart" element={<Cart/>} />
+          <Route path="/Home/cart" element={<Cart/>} />
           <Route path="/products" element={<Product/>} />
         </Routes>
       </div>
