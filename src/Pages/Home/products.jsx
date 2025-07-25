@@ -16,7 +16,7 @@ export default function(){
                 (res)=>{
                     console.log(res.data)
                     setProducts(res.data.list)
-                    setLoadingState(res.data)
+                    setLoadingState(res.data.list)
                 }
             ).catch(
                 (e)=>{
@@ -28,7 +28,7 @@ export default function(){
         )
 
     return(
-        <div className="w-full h-full bg-primary flex flex-wrap overflow-y-scroll">
+        <div className="w-full h-full bg-primary flex flex-wrap">
             {
                 products.map(
                     (product)=>

@@ -20,10 +20,13 @@ export default function uploadMediaToSupabase(file) {
     }
 
     try {
+      console.log("Starting upload for file:", file.name);
+
       const timestamp = Date.now();
       const cleanName = sanitizeFileName(file.name);
       const fileName = `${timestamp}-${cleanName}`;
 
+      console.log("Uploading with filename:", fileName); 
       const { data, error: uploadError } = await supabase.storage
         .from("images")
         .upload(fileName, file, {
@@ -32,21 +35,28 @@ export default function uploadMediaToSupabase(file) {
         });
 
       if (uploadError) {
+        console.error("Upload error:", uploadError);
         reject(uploadError.message || "Failed to upload file");
         return;
       }
 
-      const { publicUrl, error: urlError } = supabase.storage
+      console.log("Upload successful, data:", data);
+
+      const { data: urlData } = supabase.storage
         .from("images")
         .getPublicUrl(data.path);
 
-      if (urlError) {
-        reject(urlError.message || "Failed to get public URL");
+      console.log("URL data:", urlData); 
+      console.log("Public URL:", urlData.publicUrl); 
+
+      if (!urlData.publicUrl) {
+        reject("Failed to get public URL");
         return;
       }
 
-      resolve(publicUrl);
+      resolve(urlData.publicUrl);
     } catch (err) {
+      console.error("Catch error:", err); 
       reject(err.message || "Unknown upload error");
     }
   });

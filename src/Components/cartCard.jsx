@@ -14,7 +14,7 @@ export default function CartCard(props) {
   useEffect(() => {
     if (!loaded) {
       axios
-        .get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productID)
+        .get(import.meta.env.VITE_BACKEND_URL + "/api/products/"+productID)
         .then((response) => {
           if (response.data != null) {
             setProduct(response.data.product);

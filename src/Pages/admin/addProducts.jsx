@@ -15,13 +15,13 @@ export default function AddProducts() {
   const [description, setDescription] = useState("");
 
   const navigate = useNavigate();
-  
+
 
   async function submitHandle(e) {
     e.preventDefault();
 
-    
-    if (!productID || !ProductName || !price || !stock ||altNames|| imageFiles.length === 0) {
+
+    if (!productID || !ProductName || !price || !stock || !altNames || imageFiles.length === 0) {
       toast.error("Please fill in all required fields and select images");
       return;
     }
@@ -121,7 +121,8 @@ export default function AddProducts() {
             className="w-full px-3 py-2 border border-accent rounded-md focus:ring focus:ring-blue-200 focus:outline-none bg-secondary"
             placeholder="Enter Image URLs (comma-separated)"
             onChange={(e) => {
-              setImageFiles(e.target.files);
+              Array.from(e.target.files);
+              setImageFiles(files);
             }}
             multiple
           />

@@ -40,10 +40,10 @@ export default function ProductOverview() {
     function onBuyNowClick(){
       navigate("/shipping",{
         state:{
-          items: [
+          orderedItems: [
             {
               productID: product.productID,
-              qty: 1
+              quantity: 1
             }
           ]
         }

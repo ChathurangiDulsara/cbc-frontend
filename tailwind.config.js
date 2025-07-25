@@ -10,7 +10,9 @@
           colors: {
             primary: "#FAF7F3",
             secondary: "#F0E4D3",
-            accent:"#c8611d"
+            accent:"#c8611d",
+            accentLight:"#c811d50"
+
           }
         },
       },
