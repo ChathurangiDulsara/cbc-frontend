@@ -10,7 +10,7 @@ export default function Header() {
             <div className="flex items-center w-[800px] justify-evenly font-semibold">
             <Link to="/" className="text-accent font-bold text-2xl  hover:border-b border-b-accent">Home</Link>
             <Link to="/Home/products" className="text-accent font-bold text-2xl hover:border-b border-b-accent ">Products</Link>
-            <Link to="/Home/about" className="text-accent font-bold text-2xl hover:border-b border-b-accent ">About Us</Link>
+            <Link to="/Home/aboutUs" className="text-accent font-bold text-2xl hover:border-b border-b-accent ">About Us</Link>
             <Link to="/Home/contactUs" className="text-accent font-bold text-2xl hover:border-b border-b-accent ">Contact Us</Link>
            
             </div>

@@ -5,6 +5,8 @@ import LoginPage from './loginPage.jsx';
 import Cart from './Home/cart.jsx';
 import Product from './Home/products.jsx';
 import { ContactPage } from './Home/contactUs.jsx';
+import AboutUs from './Home/aboutUs.jsx';
+import SignInPage from './signInPage.jsx';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -127,6 +129,8 @@ export default function HomePage() {
             <Route path="/Home/cart" element={<Cart/>} />
             <Route path="/Home/products" element={<Product/>} />
             <Route path="/Home/contactUs" element={<ContactPage/>} />
+            <Route path="/Home/aboutUs" element={<AboutUs/>} />
+            <Route path="/Home/signInPage" element={<SignInPage/>}/>
           </Routes>
         </div>
       </div>

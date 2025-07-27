@@ -1,5 +1,4 @@
 export function loadCart() {
-
   const cart = localStorage.getItem("orderedItems");
   if (cart != null) {
     return JSON.parse(cart)
@@ -7,8 +6,6 @@ export function loadCart() {
     return []
   }
 }
-
-
 
 export function addToCart(productID, quantity) {
   const cart = loadCart()
