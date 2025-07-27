@@ -11,7 +11,7 @@ export default function ProductOverview() {
   const { id: productID } = useParams();
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
-  const navigate =useNavigate;
+  const navigate =useNavigate();
   
 
 
@@ -38,7 +38,8 @@ export default function ProductOverview() {
     }
   
     function onBuyNowClick(){
-      navigate("/shipping",{
+      
+      navigate("/Home/shipping",{
         state:{
           orderedItems: [
             {
@@ -103,8 +104,7 @@ export default function ProductOverview() {
             </button>
             <button
               onClick={onBuyNowClick}
-              className=" text-accent border mx-1 border-accent p-2 rounded-lg"
-            >
+              className=" text-accent border mx-1 border-accent p-2 rounded-lg">
               Buy Now
             </button>
             </div>

@@ -12,41 +12,45 @@ export default function Cart() {
   const [grandTotal, setGrandTotal] = useState(0);
   const navigate = useNavigate();
 
-  const fetchQuotation = () => {
+  const fetchQuotation = async () => {
+  try {
     const cartItems = loadCart();
     setOrderedItems(cartItems);
 
     if (cartItems.length > 0) {
-      axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
-          orderedItems: cartItems,
-        })
-        .then((res) => {
-          console.log(cartItems);
-          console.log(res.data.product);
-          if (res.data.total != null) {
-            console.log(res.data);
-            setTotal(res.data.total);
-            setOrderedItems(res.data.orderedItems);
-            setLabeledTotal(res.data.labeledPrice);
+      const response = await axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/api/orders/quote",
+        { orderedItems: cartItems }
+      );
 
-            const calculatedDiscount = res.data.labeledPrice - res.data.total;
-            const calculatedGrandTotal = res.data.total;
-              
-            setDiscount(calculatedDiscount);
-            setGrandTotal(calculatedGrandTotal);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching quotation:", error);
-        });
+      const { total, labeledTotal, orderedItems } = response.data;
+
+      if (total !== undefined && labeledTotal !== undefined) {
+        setTotal(total);
+        setLabeledTotal(labeledTotal);
+        setOrderedItems(orderedItems);
+        
+        const calculatedDiscount = labeledTotal - total;
+        setDiscount(calculatedDiscount);
+        setGrandTotal(total);
+      } else {
+        console.error("Missing total or labeledTotal in response:", response.data);
+      }
     } else {
+      
       setTotal(0);
       setLabeledTotal(0);
       setDiscount(0);
       setGrandTotal(0);
       setOrderedItems([]);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching quotation:", error);
+  }
+};
+
+
+   
 
   useEffect(() => {
     fetchQuotation();

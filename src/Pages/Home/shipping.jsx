@@ -13,16 +13,16 @@ export default function ShippingPage() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!cart) {
+    if (!cart || cart.length === 0) {
       toast.error("No items received");
-      navigate("/cart");
+      navigate("/Home/cart");
       return;
     }
 
-    axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
+    axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders/quote", {
         orderedItems: cart,
       })
       .then((res) => {
@@ -59,12 +59,12 @@ export default function ShippingPage() {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("You must be logged in to place an order.");
+      navigate("/login");
       return;
     }
+    setIsLoading(true);
 
-    axios
-      .post(
-        import.meta.env.VITE_BACKEND_URL + "/api/orders",
+    axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders",
         {
           orderedItems: cart,
           name,
@@ -78,90 +78,154 @@ export default function ShippingPage() {
         }
       )
       .then((res) => {
-        toast.success("Order placed successfully!");
-        navigate("/Home/orders");
+        toast.success("Order placed successfully");
+        
+      
+        localStorage.removeItem("orderedItems");
+        
+       
+        setTimeout(() => {
+          navigate("/Home/orders", {
+            state: {
+
+              orderId: res.data.orderId
+            }
+          });
+        }, 1000);
       })
       .catch((err) => {
+        console.error("Order creation error:", err);
         toast.error("Failed to place order. Please try again.");
-        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
-  if (!cart) {
-    return null;
+  if (!cart || cart.length === 0) {
+    return (
+      <div className="w-full min-h-screen bg-primary flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-accent mb-4">No Items Found</h2>
+          <p className="text-accent/70 mb-6">Please add items to your cart first.</p>
+          <button 
+            onClick={() => navigate("/Home/products")}
+            className="bg-accent text-primary px-6 py-3 rounded-xl font-bold hover:bg-accent/90 transition-colors"
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="w-full h-full bg-gray-100 p-4">
-      <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold mb-4">Shipping Details</h1>
-        <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Name</label>
-          <input
-            type="text"
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-          />
+    <div className="w-full min-h-screen bg-primary p-4">
+      <div className="w-full max-w-4xl mx-auto bg-secondary/40 rounded-2xl shadow-xl p-8 border border-accent/20">
+        <h1 className="text-3xl font-bold text-accent mb-6 text-center">Shipping Details</h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <label className="block font-semibold text-accent mb-2">Full Name *</label>
+            <input
+              type="text"
+              className="w-full p-3 border border-accent/30 rounded-lg bg-primary text-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your full name"
+            />
+          </div>
+          
+          <div>
+            <label className="block font-semibold text-accent mb-2">Phone Number *</label>
+            <input
+              type="text"
+              className="w-full p-3 border border-accent/30 rounded-lg bg-primary text-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="0773434343"
+            />
+          </div>
         </div>
-        <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Address</label>
+
+        <div className="mb-8">
+          <label className="block font-semibold text-accent mb-2">Delivery Address *</label>
           <textarea
-            className="w-full p-2 border border-gray-300 rounded-md"
+            rows="3"
+            className="w-full p-3 border border-accent/30 rounded-lg bg-primary text-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter your address"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Phone</label>
-          <input
-            type="text"
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="Enter your phone number"
+            placeholder="Enter your complete delivery address"
           />
         </div>
 
-        <h2 className="text-xl font-bold mt-6 mb-4">Order Summary</h2>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 p-2">Image</th>
-              <th className="border border-gray-300 p-2">Product Name</th>
-              <th className="border border-gray-300 p-2">Product ID</th>
-              <th className="border border-gray-300 p-2">Qty</th>
-              <th className="border border-gray-300 p-2">Price</th>
-              <th className="border border-gray-300 p-2">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((orderedItems) => (
-              <CartCard
-                key={orderedItems.productID}
-                productId={orderedItems.productID}
-                qty={orderedItems.quantity}
-              />
-            ))}
-          </tbody>
-        </table>
-        <h1 className="text-lg font-bold text-gray-700 mb-2">
-          Total: LKR. {labeledTotal.toFixed(2)}
-        </h1>
-        <h1 className="text-lg font-bold text-gray-700 mb-2">
-          Discount: LKR. {(labeledTotal - total).toFixed(2)}
-        </h1>
-        <h1 className="text-lg font-bold text-gray-700 mb-4">
-          Grand Total: LKR. {total.toFixed(2)}
-        </h1>
+       
+        <h2 className="text-2xl font-bold text-accent mt-8 mb-6">Order Summary</h2>
+        <div className="bg-primary/80 rounded-lg p-4 mb-6">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-accent/20">
+                <th className="text-left py-3 text-accent font-semibold">Image</th>
+                <th className="text-left py-3 text-accent font-semibold">Product</th>
+                <th className="text-center py-3 text-accent font-semibold">Qty</th>
+                <th className="text-right py-3 text-accent font-semibold">Price</th>
+                <th className="text-right py-3 text-accent font-semibold">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((orderedItems) => (
+                <CartCard
+                  key={orderedItems.productID}
+                  productID={orderedItems.productID}
+                  quantity={orderedItems.quantity}
+                 
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="bg-primary/60 rounded-lg p-6 mb-6">
+          <div className="flex justify-between items-center mb-3 text-accent">
+            <span className="text-lg">Subtotal:</span>
+            <span className="text-lg font-semibold">LKR {labeledTotal.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center mb-3 text-green-600">
+            <span className="text-lg">Discount:</span>
+            <span className="text-lg font-semibold">-LKR {(labeledTotal - total).toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center mb-3 text-accent">
+            <span className="text-lg">Shipping:</span>
+            <span className="text-lg font-semibold">Free</span>
+          </div>
+          <div className="border-t border-accent/20 pt-3">
+            <div className="flex justify-between items-center text-accent">
+              <span className="text-xl font-bold">Grand Total:</span>
+              <span className="text-xl font-bold">LKR {total.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+
+       
         <button
-          className="bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full"
           onClick={createOrder}
+          disabled={isLoading}
+          className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 ${
+            isLoading 
+              ? 'bg-accent/70 text-primary/70 cursor-not-allowed' 
+              : 'bg-accent hover:bg-accent/90 text-primary hover:scale-105 shadow-lg hover:shadow-xl'
+          }`}
         >
-          Checkout
+          {isLoading ? 'Processing Order...' : 'Place Order'}
         </button>
+
+       
+        <div className="flex items-center justify-center mt-4 text-accent/70">
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span className="text-sm">Secure & Encrypted Checkout</span>
+        </div>
       </div>
     </div>
   );

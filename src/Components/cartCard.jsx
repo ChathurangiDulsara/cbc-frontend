@@ -7,6 +7,7 @@ export default function CartCard(props) {
   const productID = props.productID;
   const quantity = props.quantity;
   const onQuantityChange = props.onQuantityChange;
+  const isShippingPage = props.isShippingPage || false; 
 
   const [product, setProduct] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -14,25 +15,28 @@ export default function CartCard(props) {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
 
   useEffect(() => {
-    if (!loaded) {
-      axios
-        .get(import.meta.env.VITE_BACKEND_URL + "/api/products/"+productID)
+    if (!loaded && productID) {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productID}`)
         .then((response) => {
-          if (response.data != null) {
+          if (response.data && response.data.product) {
             setProduct(response.data.product);
-            console.log(response.data.product, "product");
             setLoaded(true);
-          } else {
-            deleteItem(productID);
+            setError(false);
+          } else {S
+            if (!isShippingPage) {
+              deleteItem(productID);
+            }
+            setError(true);
+            setLoaded(true);
           }
         })
         .catch((error) => {
+          console.error("Error fetching product:", error);
           setError(true);
-          setLoaded(false);
-          console.log(error);
+          setLoaded(true);
         });
     }
-  }, []);
+  }, [productID, loaded, isShippingPage]);
 
   const handleQuantityIncrease = () => {
     const newQuantity = currentQuantity + 1;
@@ -55,20 +59,66 @@ export default function CartCard(props) {
     if (onQuantityChange) onQuantityChange();
   };
 
+  if (error && !product) {
+    return null; 
+  }
+
+  if (isShippingPage) {
+    if (!loaded) {
+      return (
+        <tr>
+          <td colSpan="5">
+            <div className="text-center py-4 text-accent">Loading...</div>
+          </td>
+        </tr>
+      );
+    }
+
+    if (!product) {
+      return null; 
+    }
+
+    return (
+      <tr className="border-b border-accent/10">
+        <td className="py-3">
+          <img
+            src={product?.image?.[0] || '/placeholder-image.jpg'}
+            className="w-16 h-16 object-cover rounded-lg"
+            alt={product?.ProductName || 'Product'}
+          />
+        </td>
+        <td className="py-3 text-accent">
+          <div className="font-medium">{product?.ProductName}</div>
+          <div className="text-sm text-accent/70">ID: {productID}</div>
+        </td>
+        <td className="py-3 text-center text-accent font-medium">
+          {currentQuantity}
+        </td>
+        <td className="py-3 text-right text-accent">
+          LKR {product?.LastPrice?.toFixed(2)}
+        </td>
+        <td className="py-3 text-right text-accent font-semibold">
+          LKR {((product?.LastPrice || 0) * currentQuantity).toFixed(2)}
+        </td>
+      </tr>
+    );
+  }
+
   return (
     <>
       {!loaded ? (
-        error ? (
-          <tr><td colSpan="8"><div className="text-center text-red-500">Failed to load product.</div></td></tr>
-        ) : (
-          <tr><td colSpan="8"><Loading /></td></tr>
-        )
-      ) : (
-        <tr className="hover:bg-accent hover:text-white cursor-pointer">
+        <tr>
+          <td colSpan="8">
+            <Loading />
+          </td>
+        </tr>
+      ) : product ? (
+        <tr className="hover:bg-secondary hover:text-accent cursor-pointer text-accent">
           <td className="">
             <img
               src={product?.image?.[0]}
               className="w-[90px] h-[90px] object-cover mx-auto"
+              alt={product?.ProductName}
             />
           </td>
           <td className="text-center">{product?.ProductName}</td>
@@ -101,13 +151,13 @@ export default function CartCard(props) {
           <td className="text-center">
             <button
               onClick={handleRemoveItem}
-              className="text-red-500 hover:text-red-700 font-medium text-sm px-2 py-1 rounded"
+              className="text-red-500 hover:text-primary -700 font-medium text-sm px-2 py-1 rounded"
             >
               Remove
             </button>
           </td>
         </tr>
-      )}
+      ) : null}
     </>
   );
 }

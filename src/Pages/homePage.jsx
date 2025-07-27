@@ -6,7 +6,8 @@ import Cart from './Home/cart.jsx';
 import Product from './Home/products.jsx';
 import { ContactPage } from './Home/contactUs.jsx';
 import AboutUs from './Home/aboutUs.jsx';
-import SignInPage from './signInPage.jsx';
+import SignUpPage from './signup.jsx';
+import ShippingPage from './Home/shipping.jsx';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -130,7 +131,8 @@ export default function HomePage() {
             <Route path="/Home/products" element={<Product/>} />
             <Route path="/Home/contactUs" element={<ContactPage/>} />
             <Route path="/Home/aboutUs" element={<AboutUs/>} />
-            <Route path="/Home/signInPage" element={<SignInPage/>}/>
+            <Route path="/signUP" element={<SignUpPage/>}/>
+            <Route path="/Home/shipping" element={<ShippingPage/>}/>
           </Routes>
         </div>
       </div>

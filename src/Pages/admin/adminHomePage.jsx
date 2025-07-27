@@ -12,45 +12,71 @@ import AdminOrdersPage from "./adminOrders.jsx";
 
 export default function AdminHomePage() {
   return (
-    <div className="flex h-screen bg-primary ">
-      <div className="w-[20%] h-screen bg-accent flex flex-col items-center py-4">
+    <div className="flex h-screen bg-primary">
+     
+      <div className="w-[20%] h-screen bg-accent flex flex-col py-8 shadow-lg">
         <Outlet/>
-        <Link 
-          className="flex flex-row items-center mb-4 text-primary hover:text-primary" 
-          to="/admin/"
-        >
-          <BsGraphUp className="mr-2" />Dashboard
-        </Link>
-        <Link 
-          className="flex flex-row items-center mb-4 text-primary hover:text-primary" 
-          to="/admin/products"
-        >
-          <BsBoxSeam className="mr-2" /> Products
-        </Link>
-        <Link 
-          className="flex flex-row items-center mb-4 text-primary hover:text-primary" 
-          to="/admin/adminOrders"
-        >
-          <BsCart4 className="mr-2" /> Orders
-        </Link>
-        <Link 
-          className="flex flex-row items-center text-primary hover:text-primary" 
-          to="/admin/customers"
-        >
-          <BsPeopleFill className="mr-2" /> Customers
-        </Link>
+        
+       
+        <div className="px-6 mb-8">
+          <h2 className="text-2xl font-bold text-primary">Admin Panel</h2>
+        </div>
+        
+      
+        <nav className="flex flex-col space-y-2 px-4">
+          <Link 
+            className="flex items-center px-4 py-3 text-primary hover:bg-primary hover:text-accent rounded-lg transition-all duration-200 font-medium group" 
+            to="/admin/"
+          >
+            <BsGraphUp className="mr-3 text-lg group-hover:scale-110 transition-transform" />
+            Dashboard
+          </Link>
+          
+          <Link 
+            className="flex items-center px-4 py-3 text-primary hover:bg-primary hover:text-accent rounded-lg transition-all duration-200 font-medium group" 
+            to="/admin/products"
+          >
+            <BsBoxSeam className="mr-3 text-lg group-hover:scale-110 transition-transform" />
+            Products
+          </Link>
+          
+          <Link 
+            className="flex items-center px-4 py-3 text-primary hover:bg-primary hover:text-accent rounded-lg transition-all duration-200 font-medium group" 
+            to="/admin/adminOrders"
+          >
+            <BsCart4 className="mr-3 text-lg group-hover:scale-110 transition-transform" />
+            Orders
+          </Link>
+          
+          <Link 
+            className="flex items-center px-4 py-3 text-primary hover:bg-primary hover:text-accent rounded-lg transition-all duration-200 font-medium group" 
+            to="/admin/customers"
+          >
+            <BsPeopleFill className="mr-3 text-lg group-hover:scale-110 transition-transform" />
+            Customers
+          </Link>
+        </nav>
+        
+        {/* Footer */}
+        <div className="mt-auto px-6 py-4">
+          <div className="border-t border-primary/20 pt-4">
+            <p className="text-primary/70 text-sm text-center">Admin Dashboard</p>
+          </div>
+        </div>
       </div>
 
-      {/* Main Content */}
-      <div className="w-[80%] bg-accent">
-        <Routes path = '/admin/'>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="products" element={<Products />} />
-          <Route path="products/addProducts" element={<AddProducts />} />
-          <Route path="adminOrders" element={<AdminOrdersPage />} />
-          <Route path="customers" element={<Customers />} />
-          <Route path="products/editProductForm" element={<EditProductForm/>} />
-        </Routes>
+      
+      <div className="w-[80%] bg-accent overflow-hidden">
+        <div className="h-full overflow-y-auto">
+          <Routes path='/admin/'>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/addProducts" element={<AddProducts />} />
+            <Route path="adminOrders" element={<AdminOrdersPage/>} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="products/editProductForm" element={<EditProductForm/>} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

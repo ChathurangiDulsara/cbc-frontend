@@ -16,16 +16,13 @@ export default function AddProducts() {
 
   const navigate = useNavigate();
 
-
   async function submitHandle(e) {
     e.preventDefault();
-
 
     if (!productID || !ProductName || !price || !stock || !altNames || imageFiles.length === 0) {
       toast.error("Please fill in all required fields and select images");
       return;
     }
-
 
     const alternativeNames = altNames
       .split(",")
@@ -71,123 +68,139 @@ export default function AddProducts() {
   }
 
   return (
-    <div className="w-full bg-primary flex items-center justify-center">
-      <div className="bg-secondary p-8 rounded-lg shadow-lg w-full max-w-xl">
-        <h1 className="text-3xl font-bold text-center mb-8">Add New Product</h1>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Product ID</label>
-          <input
-            type="text"
-            placeholder="Product ID"
-            className="w-full p-2 border border-accent rounded"
-            value={productID}
-            onChange={(e) => {
-              setProductID(e.target.value);
-            }}
-          />
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-6">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl border border-gray-200">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Add New Product</h1>
+          <p className="text-gray-600">Create a new product listing</p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Product Name</label>
-          <input
-            type="text"
-            placeholder="Product Name"
-            className="w-full p-2 border border-accent rounded"
-            value={ProductName}
-            onChange={(e) => {
-              setProductName(e.target.value);
-            }}
-          />
-        </div>
+        <form onSubmit={submitHandle} className="space-y-6">
+          {/* Product ID */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Product ID *</label>
+            <input
+              type="text"
+              placeholder="Enter unique product ID"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+              value={productID}
+              onChange={(e) => {
+                setProductID(e.target.value);
+              }}
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Alternative Names</label>
-          <input
-            type="text"
-            placeholder="Alternative Names"
-            className="w-full p-2 border border-accent rounded"
-            value={altNames}
-            onChange={(e) => {
-              setAlternativeNames(e.target.value);
-            }}
-          />
-        </div>
+          {/* Product Name */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Product Name *</label>
+            <input
+              type="text"
+              placeholder="Enter product name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+              value={ProductName}
+              onChange={(e) => {
+                setProductName(e.target.value);
+              }}
+            />
+          </div>
 
-        <div className="flex flex-col">
-          <label className="text-gray-700 font-medium">Image URLs</label>
-          <input
-            type="file"
-            className="w-full px-3 py-2 border border-accent rounded-md focus:ring focus:ring-blue-200 focus:outline-none bg-secondary"
-            placeholder="Enter Image URLs (comma-separated)"
-            onChange={(e) => {
-              Array.from(e.target.files);
-              setImageFiles(files);
-            }}
-            multiple
-          />
-        </div>
+          {/* Alternative Names */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Alternative Names *</label>
+            <input
+              type="text"
+              placeholder="Enter alternative names (comma-separated)"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+              value={altNames}
+              onChange={(e) => {
+                setAlternativeNames(e.target.value);
+              }}
+            />
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Price</label>
-          <input
-            type="number"
-            placeholder="Price"
-            className="w-full p-2 border border-accent rounded"
-            value={price}
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
-          />
-        </div>
+          {/* Image Upload */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Product Images *</label>
+            <div className="relative">
+              <input
+                type="file"
+                className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-accent file:text-white file:cursor-pointer file:hover:bg-accent/90"
+                onChange={(e) => {
+                  const files = Array.from(e.target.files);
+                  setImageFiles(files);
+                }}
+                multiple
+              />
+            </div>
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Last Price</label>
-          <input
-            type="number"
-            placeholder="Last Price"
-            className="w-full p-2 border border-accent rounded"
-            value={LastPrice}
-            onChange={(e) => {
-              setLastPrice(e.target.value);
-            }}
-          />
-        </div>
+          {/* Price Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Original Price *</label>
+              <input
+                type="number"
+                placeholder="0.00"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+                value={price}
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                }}
+              />
+            </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Stock</label>
-          <input
-            type="number"
-            placeholder="Stock"
-            className="w-full p-2 border border-accent rounded"
-            value={stock}
-            onChange={(e) => {
-              setStock(e.target.value);
-            }}
-          />
-        </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Current Price</label>
+              <input
+                type="number"
+                placeholder="0.00"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+                value={LastPrice}
+                onChange={(e) => {
+                  setLastPrice(e.target.value);
+                }}
+              />
+            </div>
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
-          <textarea
-            placeholder="Product Description"
-            className="w-full p-2 border border-accent rounded h-24 resize-none"
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          ></textarea>
-        </div>
+          {/* Stock */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Stock Quantity *</label>
+            <input
+              type="number"
+              placeholder="0"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+              value={stock}
+              onChange={(e) => {
+                setStock(e.target.value);
+              }}
+            />
+          </div>
 
-        <div className="text-center">
-          <button
-            type="submit"
-            className="bg-accent text-secondary px-6 py-2 rounded hover:bg-accent transition"
-            onClick={submitHandle}
-          >
-            Add Product
-          </button>
-        </div>
+          {/* Description */}
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700">Product Description</label>
+            <textarea
+              placeholder="Enter product description..."
+              className="w-full p-3 border border-gray-300 rounded-lg h-32 resize-none focus:ring-2 focus:ring-accent focus:border-accent transition-all duration-200 hover:border-gray-400"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            ></textarea>
+          </div>
+
+         
+          <div className="pt-6">
+            <button
+              type="submit"
+              className="w-full bg-accent hover:bg-accent/90 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            >
+              Add Product
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

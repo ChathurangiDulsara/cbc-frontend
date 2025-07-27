@@ -1,18 +1,19 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AboutUs() {
-    
+
     const navigate = useNavigate();
 
-   function productsPage(){
-    navigate("/Home/products");
-  }
-   
+    function productsPage() {
+        navigate("/Home/products");
+    }
+
+
 
     return (
         <div className="min-h-screen bg-primary">
-           
+
             <div className="bg-accent text-white py-20">
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="text-5xl font-bold mb-4">About Crystal Clear Beauty</h1>
@@ -23,7 +24,7 @@ export default function AboutUs() {
                 </div>
             </div>
 
-            
+
             <section className="py-16 bg-secondary">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -56,7 +57,7 @@ export default function AboutUs() {
                 </div>
             </section>
 
-            
+
             <section className="py-16 bg-primary">
                 <div className="container mx-auto px-4">
                     <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Our Values</h2>
@@ -150,7 +151,7 @@ export default function AboutUs() {
                 </div>
             </section>
 
-            
+
             <section className="py-16 bg-accent text-white">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-4 gap-8 text-center">
@@ -174,59 +175,31 @@ export default function AboutUs() {
                 </div>
             </section>
 
-            <section className="py-16 bg-primary">
-                <div className="container mx-auto px-4">
+            <section className="py-16 bg-primary flex justify-center items-center">
+                <div className="container mx-auto px-4 ">
                     <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">Meet Our Team</h2>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div className="bg-secondary rounded-lg shadow-md overflow-hidden">
+                    <div className="flex justify-center items-center ">
+                        <div className="bg-secondary rounded-lg shadow-md overflow-hidden ">
                             <img
-                                src="https://images.unsplash.com/photo-1494790108755-2616c0763c52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80"
-                                alt="Sarah Johnson"
-                                className="w-full h-64 object-cover"
+                                src="/Christell-21-800x600.jpg"
+                                alt="Chrishel De Silva"
+                                className="w-full h-60 object-coveraspect-square object-cover"
                             />
                             <div className="p-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-2">Sarah Johnson</h3>
+                                <h3 className="text-xl font-semibold text-gray-800 mb-2">Chrishel De Silva</h3>
                                 <p className="text-accent mb-3">Founder & CEO</p>
                                 <p className="text-gray-600 text-sm">
-                                    Beauty industry veteran with 15+ years of experience in product development and retail.
+                                    Beauty industry veteran with 10+ years of experience in product development and retail.
                                 </p>
                             </div>
                         </div>
 
-                        <div className="bg-secondary rounded-lg shadow-md overflow-hidden">
-                            <img
-                                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1288&q=80"
-                                alt="Emily Chen"
-                                className="w-full h-64 object-cover"
-                            />
-                            <div className="p-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-2">Emily Chen</h3>
-                                <p className="text-accent mb-3">Head of Product Curation</p>
-                                <p className="text-gray-600 text-sm">
-                                    Licensed esthetician and skincare expert who personally tests every product we carry.
-                                </p>
-                            </div>
-                        </div>
 
-                        <div className="bg-secondary rounded-lg shadow-md overflow-hidden">
-                            <img
-                                src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1361&q=80"
-                                alt="Maria Rodriguez"
-                                className="w-full h-64 object-cover"
-                            />
-                            <div className="p-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-2">Maria Rodriguez</h3>
-                                <p className="text-accent mb-3">Customer Experience Manager</p>
-                                <p className="text-gray-600 text-sm">
-                                    Dedicated to ensuring every customer has an exceptional shopping experience with us.
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            
+
             <section className="py-16 bg-secondary">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-4xl font-bold text-gray-800 mb-4">Ready to Discover Your Beauty?</h2>
@@ -244,11 +217,22 @@ export default function AboutUs() {
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div>
                             <h3 className="text-lg font-semibold mb-2">Visit Our Store</h3>
-                            <p className="text-gray-300">123 Beauty Lane<br />Fashion District<br />New York, NY 10001</p>
+                            <p className="text-gray-300">Galle Road,<br />Colombo 7<br />Sri Lanka</p>
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
-                            <p className="text-gray-300">Phone: (555) 123-4567<br />Email: hello@crystalclearbeauty.com</p>
+                            <p className="text-gray-300">Phone:0716138800<br />
+                            </p>
+                            <p> <a
+                                href={`
+                                     mailto:crystalbeautyClear@gmail.com?subject=${encodeURIComponent('Help with my order')}
+                                     &body=${encodeURIComponent('Hi team, I need assistance with …')}
+                                      `}
+                            >
+                                crystalbeautyClear@gmail.com
+                            </a></p>
+
+
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold mb-2">Store Hours</h3>
