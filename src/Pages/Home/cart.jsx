@@ -8,8 +8,9 @@ export default function Cart() {
   const [orderedItems, setOrderedItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [labeledTotal, setLabeledTotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [grandTotal, setGrandTotal] = useState(0);
+
+
+
   const navigate = useNavigate();
 
   const fetchQuotation = async () => {
@@ -23,27 +24,12 @@ export default function Cart() {
         { orderedItems: cartItems }
       );
 
-      const { total, labeledTotal, orderedItems } = response.data;
-
-      if (total !== undefined && labeledTotal !== undefined) {
-        setTotal(total);
-        setLabeledTotal(labeledTotal);
-        setOrderedItems(orderedItems);
-        
-        const calculatedDiscount = labeledTotal - total;
-        setDiscount(calculatedDiscount);
-        setGrandTotal(total);
-      } else {
-        console.error("Missing total or labeledTotal in response:", response.data);
+      if (response.data.total !== undefined && response.data.labeledTotal !== undefined) {
+        setTotal(response.data.total);
+        setLabeledTotal(response.data.labeledTotal);
+        setOrderedItems(response.data.orderedItems);
       }
-    } else {
-      
-      setTotal(0);
-      setLabeledTotal(0);
-      setDiscount(0);
-      setGrandTotal(0);
-      setOrderedItems([]);
-    }
+    } 
   } catch (error) {
     console.error("Error fetching quotation:", error);
   }
@@ -86,7 +72,7 @@ export default function Cart() {
               {orderedItems.map((orderedItem) => {
                 return (
                   <CartCard
-                    key={orderedItem.productID}
+                   
                     productID={orderedItem.productID}
                     quantity={orderedItem.quantity}
                     onQuantityChange={fetchQuotation}
@@ -113,14 +99,14 @@ export default function Cart() {
             <div className="flex justify-between items-center">
               <span className="text-base font-medium text-gray-600">Discount</span>
               <span className="text-base font-semibold text-green-600">
-                -LKR {discount.toFixed(2)}
+                -LKR {(labeledTotal-total).toFixed(2)}
               </span>
             </div>
 
             <div className="flex justify-between items-center pt-4 border-t border-gray-200">
               <span className="text-lg font-bold text-gray-700">Grand Total</span>
               <span className="text-lg font-bold text-accent">
-                LKR {grandTotal.toFixed(2)}
+                LKR {total.toFixed(2)}
               </span>
             </div>
           </div>

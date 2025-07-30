@@ -7,7 +7,7 @@ export default function CartCard(props) {
   const productID = props.productID;
   const quantity = props.quantity;
   const onQuantityChange = props.onQuantityChange;
-  const isShippingPage = props.isShippingPage || false; 
+  const isShippingPage = props.isShippingPage || false;
 
   const [product, setProduct] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -15,16 +15,24 @@ export default function CartCard(props) {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
 
   useEffect(() => {
-    if (!loaded && productID) {
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productID}`)
+  
+    setLoaded(false);
+    setError(false);
+    setProduct(null);
+
+    if (productID) {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productID}`)
         .then((response) => {
           if (response.data && response.data.product) {
             setProduct(response.data.product);
             setLoaded(true);
             setError(false);
-          } else {S
+          } else {
+           
             if (!isShippingPage) {
               deleteItem(productID);
+              if (onQuantityChange) onQuantityChange();
             }
             setError(true);
             setLoaded(true);
@@ -32,11 +40,15 @@ export default function CartCard(props) {
         })
         .catch((error) => {
           console.error("Error fetching product:", error);
+          if (!isShippingPage) {
+            deleteItem(productID);
+            if (onQuantityChange) onQuantityChange();
+          }
           setError(true);
           setLoaded(true);
         });
     }
-  }, [productID, loaded, isShippingPage]);
+  }, [productID, isShippingPage, onQuantityChange]);
 
   const handleQuantityIncrease = () => {
     const newQuantity = currentQuantity + 1;
@@ -60,7 +72,7 @@ export default function CartCard(props) {
   };
 
   if (error && !product) {
-    return null; 
+    return null;
   }
 
   if (isShippingPage) {
@@ -75,27 +87,25 @@ export default function CartCard(props) {
     }
 
     if (!product) {
-      return null; 
+      return null;
     }
 
     return (
       <tr className="border-b border-accent/10">
         <td className="py-3">
           <img
-            src={product?.image?.[0] || '/placeholder-image.jpg'}
+            src={product?.image?.[0] || "/placeholder-image.jpg"}
             className="w-16 h-16 object-cover rounded-lg"
-            alt={product?.ProductName || 'Product'}
+            alt={product?.ProductName || "Product"}
           />
         </td>
         <td className="py-3 text-accent">
           <div className="font-medium">{product?.ProductName}</div>
           <div className="text-sm text-accent/70">ID: {productID}</div>
         </td>
-        <td className="py-3 text-center text-accent font-medium">
-          {currentQuantity}
-        </td>
+        <td className="py-3 text-center text-accent font-medium">{currentQuantity}</td>
         <td className="py-3 text-right text-accent">
-          LKR {product?.LastPrice?.toFixed(2)}
+          LKR {product?.price?.toFixed(2)}
         </td>
         <td className="py-3 text-right text-accent font-semibold">
           LKR {((product?.LastPrice || 0) * currentQuantity).toFixed(2)}
@@ -114,7 +124,7 @@ export default function CartCard(props) {
         </tr>
       ) : product ? (
         <tr className="hover:bg-secondary hover:text-accent cursor-pointer text-accent">
-          <td className="">
+          <td>
             <img
               src={product?.image?.[0]}
               className="w-[90px] h-[90px] object-cover mx-auto"
@@ -132,9 +142,7 @@ export default function CartCard(props) {
               >
                 -
               </button>
-              <span className="w-12 text-center font-medium">
-                {currentQuantity}
-              </span>
+              <span className="w-12 text-center font-medium">{currentQuantity}</span>
               <button
                 onClick={handleQuantityIncrease}
                 className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-gray-600 font-semibold"
@@ -151,7 +159,7 @@ export default function CartCard(props) {
           <td className="text-center">
             <button
               onClick={handleRemoveItem}
-              className="text-red-500 hover:text-primary -700 font-medium text-sm px-2 py-1 rounded"
+              className="text-red-500 hover:text-primary-700 font-medium text-sm px-2 py-1 rounded"
             >
               Remove
             </button>

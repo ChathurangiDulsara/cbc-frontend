@@ -18,7 +18,7 @@ export default function AdminOrdersPage() {
       return;
     }
 
-    console.log("Fetching orders..."); // Debug log
+    console.log("Fetching orders...");
     
     axios.get(import.meta.env.VITE_BACKEND_URL + "/api/orders", {
         headers: {
@@ -26,9 +26,9 @@ export default function AdminOrdersPage() {
         },
       })
       .then((res) => {
-        console.log("Orders response:", res.data); // Debug log
+        console.log("Orders response:", res.data);
         
-        // Ensure we always set an array
+       
         if (Array.isArray(res.data)) {
           setOrders(res.data);
         } else {
@@ -40,7 +40,7 @@ export default function AdminOrdersPage() {
       .catch((err) => {
         console.error("Error fetching orders:", err.response?.data || err.message);
         toast.error("Failed to fetch orders. Please try again.");
-        setOrders([]); // Ensure orders is always an array
+        setOrders([]); 
         setLoading(false);
       });
   }, []);
@@ -108,13 +108,12 @@ export default function AdminOrdersPage() {
   return (
     <div className="w-full min-h-screen bg-primary p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+     
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-accent mb-2">Order Management</h1>
           <p className="text-accent/70">Manage and track all customer orders</p>
         </div>
 
-        {/* Debug info */}
         <div className="mb-6 p-4 bg-secondary/20 rounded-lg border border-accent/20">
           <div className="flex justify-between items-center text-sm text-accent/80">
             <span>Total orders: <span className="font-semibold text-accent">{orders.length}</span></span>
@@ -208,7 +207,7 @@ export default function AdminOrdersPage() {
           </div>
         )}
 
-        {/* Detail Modal */}
+        
         {detailModalVisible && selectedOrder && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-primary border border-accent/20 w-full max-w-2xl rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -276,13 +275,13 @@ export default function AdminOrdersPage() {
                             {item.image && (
                               <img
                                 src={item.image}
-                                alt={item.name || item.productName || 'Product'}
+                                alt={ item.ProductName || 'Product'}
                                 className="w-16 h-16 rounded-lg object-cover border border-accent/20"
                                 onError={(e) => {e.target.style.display = 'none'}}
                               />
                             )}
                             <div className="flex-1">
-                              <h4 className="font-semibold text-accent">{item.name || item.productName || 'N/A'}</h4>
+                              <h4 className="font-semibold text-accent">{item.name || item.ProductName}</h4>
                               <div className="grid grid-cols-3 gap-4 mt-2 text-sm">
                                 <div>
                                   <span className="text-accent/70">Price:</span>
@@ -294,7 +293,7 @@ export default function AdminOrdersPage() {
                                 </div>
                                 <div>
                                   <span className="text-accent/70">Subtotal:</span>
-                                  <p className="font-semibold text-accent">LKR {((item.price || 0) * (item.quantity || 0)).toFixed(2)}</p>
+                                  <p className="font-semibold text-accent">LKR {((item.LastPrice) * (item.quantity)).toFixed(2)}</p>
                                 </div>
                               </div>
                             </div>
@@ -329,7 +328,7 @@ export default function AdminOrdersPage() {
           </div>
         )}
 
-        {/* Update Modal */}
+       
         {updateModalVisible && selectedOrder && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-primary border border-accent/20 w-full max-w-md rounded-2xl shadow-2xl">
